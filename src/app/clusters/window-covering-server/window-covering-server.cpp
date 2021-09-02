@@ -149,32 +149,44 @@ namespace app {
 namespace Clusters {
 namespace WindowCovering {
 
-bool IsOpen(chip::EndpointId endpoint)
+LimitStatus LiftLimitStatusGet(chip::EndpointId endpoint)
 {
-    uint16_t liftPosition = 0;
-    uint16_t liftLimit    = 0;
-    uint16_t tiltPosition = 0;
-    uint16_t tiltLimit    = 0;
+    uint16_t percent100ths = 0;
+    bool hasLift         = HasFeature(endpoint, Features::Lift);
+    bool isPositionAware = HasFeature(endpoint, Features::PositionAware);
 
-    Attributes::GetTargetPositionLiftPercent100ths(endpoint, &liftPosition);
-    Attributes::GetInstalledOpenLimitLift(endpoint, &liftLimit);
-    Attributes::GetTargetPositionTiltPercent100ths(endpoint, &tiltPosition);
-    Attributes::GetInstalledOpenLimitTilt(endpoint, &tiltLimit);
-    return liftPosition == liftLimit && tiltPosition == tiltLimit;
+    if (hasLift && isPositionAware) {
+        Attributes::GetCurrentPositionLift(endpoint, &percent100ths);
+        if (WC_PERCENT100THS_MIN_OPEN == percent100ths)
+            return IsUpOrOpen;
+
+        if (WC_PERCENT100THS_MAX_CLOSED == percent100ths)
+            return IsDownOrClose;
+
+        return Unknown;
+    }
+
+    return Unsupported;
 }
 
-bool IsClosed(chip::EndpointId endpoint)
+LimitStatus TiltLimitStatusGet(chip::EndpointId endpoint)
 {
-    uint16_t liftPosition = 0;
-    uint16_t liftLimit    = 0;
-    uint16_t tiltPosition = 0;
-    uint16_t tiltLimit    = 0;
+    uint16_t percent100ths = 0;
+    bool hasTilt         = HasFeature(endpoint, Features::Tilt);
+    bool isPositionAware = HasFeature(endpoint, Features::PositionAware);
 
-    Attributes::GetTargetPositionLiftPercent100ths(endpoint, &liftPosition);
-    Attributes::GetInstalledClosedLimitLift(endpoint, &liftLimit);
-    Attributes::GetTargetPositionTiltPercent100ths(endpoint, &tiltPosition);
-    Attributes::GetInstalledClosedLimitTilt(endpoint, &tiltLimit);
-    return liftPosition == liftLimit && tiltPosition == tiltLimit;
+    if (hasTilt && isPositionAware) {
+        Attributes::GetCurrentPositionTilt(endpoint, &percent100ths);
+        if (WC_PERCENT100THS_MIN_OPEN == percent100ths)
+            return IsUpOrOpen;
+
+        if (WC_PERCENT100THS_MAX_CLOSED == percent100ths)
+            return IsDownOrClose;
+
+        return Unknown;
+    }
+
+    return Unsupported;
 }
 
 void TypeSet(chip::EndpointId endpoint, EmberAfWcType type)
