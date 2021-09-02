@@ -91,13 +91,4 @@ void emberAfPostAttributeChangeCallback(chip::EndpointId endpoint, chip::Cluster
     }
 }
 
-/**
- * @brief  Cluster StopMotion Command callback (from client)
- */
-bool emberAfWindowCoveringClusterStopMotionCallback(chip::EndpointId endpoint, chip::app::CommandHandler * commandObj)
-{
-    ChipLogProgress(Zcl, "StopMotion command received");
-    WindowApp::Instance().PostEvent(WindowApp::Event(WindowApp::EventId::StopMotion, endpoint));
-    emberAfSendImmediateDefaultResponse(EMBER_ZCL_STATUS_SUCCESS);
-    return true;
-}
+
