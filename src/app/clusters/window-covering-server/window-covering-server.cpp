@@ -59,10 +59,7 @@ using namespace chip::app::Clusters::WindowCovering;
 #define CHECK_BOUNDS_INVALID(MIN, VAL, MAX) ((VAL < MIN) || (VAL > MAX))
 #define CHECK_BOUNDS_VALID(MIN, VAL, MAX)   (!CHECK_BOUNDS_INVALID(MIN, VAL, MAX))
 
-static bool HasFeature(chip::EndpointId endpoint, Features feature)
-{
-    return true;
-}
+
 
 static uint16_t ConvertValue(uint16_t inputLowValue, uint16_t inputHighValue, uint16_t outputLowValue, uint16_t outputHighValue, uint16_t value)
 {
@@ -157,6 +154,10 @@ namespace app {
 namespace Clusters {
 namespace WindowCovering {
 
+bool HasFeature(chip::EndpointId endpoint, Features feature)
+{
+    return true;
+}
 
 void PrintPercent100ths(const char * pMessage, uint16_t percent100ths)
 {
