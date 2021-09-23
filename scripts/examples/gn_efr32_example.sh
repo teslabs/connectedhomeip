@@ -36,7 +36,7 @@ else
     else
         gn gen --check --fail-on-unused-args --root="$1" --args="efr32_board=\"$3\"" "$2/$3" "$4"
     fi
-    ninja -v -C "$2/$3"
+    ninja -j1 -v -C "$2/$3"
     #print stats
     arm-none-eabi-size -A "$2"/"$3"/*.out
 fi
