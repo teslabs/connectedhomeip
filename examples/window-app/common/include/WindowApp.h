@@ -144,6 +144,7 @@ public:
 
         void TimerStart();
         void TimerStop();
+        bool IsActive();
         LimitStatus GetLimitState();
 
         static void OnActuatorTimeout(Timer & timer);
