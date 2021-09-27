@@ -12,7 +12,7 @@ for general information on contributing to this project.
 ## Location
 
 Place all documentation contributions in the appropriate location in the
-[`/docs`](../docs) directory. Most contributions should go into the
+`docs` directory. Most contributions should go into the
 `/docs/guides` subdirectory, which covers conceptual and usage content.
 
 Current documentation structure:
@@ -42,8 +42,6 @@ Style to come
 For consistency, all document links should point to the content on GitHub.
 
 The text of a link should be descriptive, so it's clear what the link is for:
-
-> For more information, see the [CHIP Style Guide](./STYLE_GUIDE.md).
 
 ## Markdown guidelines
 
